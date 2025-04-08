@@ -3,8 +3,11 @@ using UnityEngine;
 public class PetManager : MonoBehaviour
 {
     public PetController pet;
+    public NeedsController needsController;
     public float petMoveTimer, originalPetMoveTimer;
     public Transform[] waypoints;
+
+    public static PetManager Instance;
 
     private void MovePetToRandomWaypoint()
     {
@@ -15,6 +18,14 @@ public class PetManager : MonoBehaviour
     private void Awake()
     {
         originalPetMoveTimer = petMoveTimer;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+           Debug.LogWarning("Multiple instances of PetManager found.");
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -35,5 +46,9 @@ public class PetManager : MonoBehaviour
             MovePetToRandomWaypoint();
             petMoveTimer = originalPetMoveTimer;
         }
+    }
+    public void Death()
+    {
+        Debug.Log("Pet has died. Game Over.");
     }
 }
