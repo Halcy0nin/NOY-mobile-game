@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class TimingManager : MonoBehaviour
 {
-    public static float gameHourTimer;
-    public float hourLength;
+    public static float gameTimer;
+    public float timeLength;
     private void Update(){
-        if(gameHourTimer <= 0){
-            gameHourTimer = hourLength;
+        if(gameTimer <= 0){
+            gameTimer = timeLength;
         }
         else{
-            gameHourTimer -= Time.deltaTime;
+            gameTimer -= Time.deltaTime;
         }
     }
 }
