@@ -7,28 +7,23 @@ public class RandomizerScript : MonoBehaviour
 {
     public GameObject buttonPrefab;
     public RectTransform parentContainer;
-
     public float minX = -90f;
     public float maxX = 180f;
     public float minY = -240f;
     public float maxY = 335f;
-
     public NeedsController needsController; 
-
     private List<GameObject> spawnedButtons = new List<GameObject>();
 
     void Start()
     {
-        
         SpawnButtonsBasedOnPercentage();
     }
-
+    void Update(){
+        Debug.Log($"Hygiene Percent = {needsController.hygiene}");
+    }
     void SpawnButtonsBasedOnPercentage()
     {
-        float hygienePercent = Mathf.Clamp01(needsController.hygiene / 100f);
-
-        int baseAmount = 10;
-        int numberOfButtons = Mathf.RoundToInt(baseAmount * (1.0f - hygienePercent));
+        int numberOfButtons = Mathf.Clamp(2 + ((100 - needsController.hygiene) / 20) * 2, 2, 10);
 
         while (spawnedButtons.Count < numberOfButtons)
         {
@@ -59,6 +54,6 @@ public class RandomizerScript : MonoBehaviour
 
     void AddClickToHide(GameObject btn)
     {
-        btn.GetComponent<Button>().onClick.AddListener(() => btn.SetActive(false));
+        btn.GetComponent<Button>().onClick.AddListener(() => {needsController.hygiene += 5;btn.SetActive(false);});
     }
 }
