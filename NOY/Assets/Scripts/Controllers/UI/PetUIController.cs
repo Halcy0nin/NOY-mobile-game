@@ -5,15 +5,22 @@ public class PetUIController : MonoBehaviour
 {
 
     public Image hungerMeter,energyMeter,sleepMeter,hygieneMeter;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public NeedsController needsController;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (needsController != null)
+        {      
+            float hungerfillAmount = (float) needsController.food / 100;
+            hungerMeter.fillAmount= hungerfillAmount;
+            float energyfillAmount = (float) needsController.energy / 100;
+            energyMeter.fillAmount= energyfillAmount;
+            float hygienefillAmount = (float) needsController.hygiene / 100;
+            hygieneMeter.fillAmount= hygienefillAmount;
+            float sleepfillAmount = (float) needsController.sleep / 100;
+            sleepMeter.fillAmount= sleepfillAmount;
+
+        }
     }
+    
 }

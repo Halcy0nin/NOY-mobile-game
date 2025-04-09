@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class NeedsController : MonoBehaviour
 {
-   public int food, happiness ,energy, hygiene;
-   public int foodTickRate, happinessTickRate, energyTickRate, hygieneTickRate;
-   public void Initialize( int food, int happiness, int energy, int hygiene)
+   public int food, sleep ,energy, hygiene;
+   public bool Sleeping = false;
+   public int SleepRecoveryRate;
+   public int foodTickRate, sleepTickRate, energyTickRate, hygieneTickRate;
+   public void Initialize( int food, int sleep, int energy, int hygiene)
    {
        this.food = food;
-       this.happiness = happiness;
+       this.sleep = sleep;
        this.energy = energy;
        this.hygiene = hygiene;
    }
@@ -16,8 +18,18 @@ public class NeedsController : MonoBehaviour
         if(TimingManager.gameHourTimer <= 0)
         {
             ChangeFoodStats(-foodTickRate);
-            ChangeHappinessStats(-happinessTickRate);
+            if (sleep > 0 && Sleeping == false )
+            {
+            ChangeSleepStats(-sleepTickRate);
             ChangeEnergyStats(-energyTickRate);
+            }
+            else if (Sleeping == true)
+            {
+                Sleep(SleepRecoveryRate);
+            }
+            else{
+                Debug.Log("Sleep not calculated properly");
+            }
             ChangeHygieneStats(-hygieneTickRate);
         }
    }
@@ -33,16 +45,16 @@ public class NeedsController : MonoBehaviour
         food = 100;
     }
    }
-   public void ChangeHappinessStats(int amount)
+   public void ChangeSleepStats(int amount)
    {
-    happiness += amount;
-    if (happiness < 0)
+    sleep += amount;
+    if (sleep < 0)
     {
         PetManager.Instance.Death();
     }
-    else if (happiness > 100)
+    else if (sleep > 100)
     {
-        happiness = 100;
+        sleep = 100;
     }
    }
    public void ChangeEnergyStats(int amount)
@@ -69,4 +81,54 @@ public class NeedsController : MonoBehaviour
         hygiene = 100;
     }
    }
+    public void JunkFood()
+    {
+        
+        food += 20;
+        energy += 10;
+        Debug.Log("I ate nigga food");
+    }
+    public void HealthyFood()
+    {
+        
+        Debug.Log("I ate white food");
+        food += 20;
+        energy += 20;
+    }
+    public void Sleep(int amount){
+        
+        Debug.Log("I am sleeping n");
+        Sleeping = true;
+        sleep += amount;
+        energy += amount;
+        if (sleep > 100)
+        {
+            sleep = 100;
+        }
+        if (energy > 100)
+        {
+            energy = 100;
+        }
+    }
+    public void WakingUp(){
+        Sleeping = false;
+    }
+    public void CharacterSleeping()
+    {
+        if (sleep == 0)
+        {
+            Debug.Log("Can't play Minigames");
+        }
+    }
+    public void ToothbrushAction()
+    {
+        
+        Debug.Log("I am toothbrushing");
+        hygiene += 20;
+    }
+    public void ShowerAction()
+    {
+        Debug.Log("I am taking a bath");
+        hygiene += 20;
+    }
 }
