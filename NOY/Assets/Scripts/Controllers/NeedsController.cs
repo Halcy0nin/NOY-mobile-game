@@ -15,7 +15,7 @@ public class NeedsController : MonoBehaviour
    }
    private void Update()
    {
-        if(TimingManager.gameHourTimer <= 0)
+        if(TimingManager.gameTimer <= 0)
         {
             ChangeFoodStats(-foodTickRate);
             if (sleep > 0 && Sleeping == false )
@@ -39,7 +39,7 @@ public class NeedsController : MonoBehaviour
     if (food < 0)
     {
         PetManager.Instance.Death();
-        food= 1;
+        food= 5;
     }
     else if (food > 100)
     {
@@ -52,7 +52,7 @@ public class NeedsController : MonoBehaviour
     if (sleep < 0)
     {
         PetManager.Instance.Death();
-        sleep=1;
+        sleep=5;
     }
     else if (sleep > 100)
     {
@@ -65,7 +65,7 @@ public class NeedsController : MonoBehaviour
     if (energy < 0)
     {
         PetManager.Instance.Death();
-        energy=1;
+        energy=5;
     }
     else if (energy > 100)
     {
@@ -78,7 +78,7 @@ public class NeedsController : MonoBehaviour
     if (hygiene < 0)
     {
         PetManager.Instance.Death();
-        hygiene=1;
+        hygiene=5;
     }
     else if (hygiene > 100)
     {
