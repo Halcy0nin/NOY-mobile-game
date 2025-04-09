@@ -39,6 +39,7 @@ public class NeedsController : MonoBehaviour
     if (food < 0)
     {
         PetManager.Instance.Death();
+        food= 1;
     }
     else if (food > 100)
     {
@@ -51,6 +52,7 @@ public class NeedsController : MonoBehaviour
     if (sleep < 0)
     {
         PetManager.Instance.Death();
+        sleep=1;
     }
     else if (sleep > 100)
     {
@@ -63,6 +65,7 @@ public class NeedsController : MonoBehaviour
     if (energy < 0)
     {
         PetManager.Instance.Death();
+        energy=1;
     }
     else if (energy > 100)
     {
@@ -75,11 +78,13 @@ public class NeedsController : MonoBehaviour
     if (hygiene < 0)
     {
         PetManager.Instance.Death();
+        hygiene=1;
     }
     else if (hygiene > 100)
     {
         hygiene = 100;
     }
+   
    }
     public void JunkFood()
     {
@@ -96,7 +101,6 @@ public class NeedsController : MonoBehaviour
         energy += 20;
     }
     public void Sleep(int amount){
-        
         Debug.Log("I am sleeping n");
         Sleeping = true;
         sleep += amount;
