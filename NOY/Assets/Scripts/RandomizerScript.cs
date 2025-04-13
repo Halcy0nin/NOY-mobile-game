@@ -16,14 +16,16 @@ public class RandomizerScript : MonoBehaviour
 
     void Start()
     {
-        SpawnButtonsBasedOnPercentage();
     }
     void Update(){
-        Debug.Log($"Hygiene Percent = {needsController.hygiene}");
+        if (needsController.hygiene > 100)
+        {
+            needsController.hygiene = 100;
+        }
     }
-    void SpawnButtonsBasedOnPercentage()
+    public void SpawnButtonsBasedOnPercentage()
     {
-        int numberOfButtons = Mathf.Clamp(2 + ((100 - needsController.hygiene) / 20) * 2, 2, 10);
+        int numberOfButtons = Mathf.Clamp(2 + (100 - needsController.hygiene) / 20 * 2, 2, 10);
 
         while (spawnedButtons.Count < numberOfButtons)
         {

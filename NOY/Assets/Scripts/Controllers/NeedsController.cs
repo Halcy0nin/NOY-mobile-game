@@ -1,11 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NeedsController : MonoBehaviour
 {
    public int food, sleep ,energy, hygiene;
+   public string food1Value, food2Value, food3Value;
    public bool Sleeping = false;
    public int SleepRecoveryRate;
    public int foodTickRate, sleepTickRate, energyTickRate, hygieneTickRate;
+   public TMPro.TextMeshProUGUI food1, food2, food3;
    public void Initialize( int food, int sleep, int energy, int hygiene)
    {
        this.food = food;
@@ -86,9 +89,34 @@ public class NeedsController : MonoBehaviour
     }
    
    }
-    public void JunkFood()
+    public void FoodChoice()
     {
-        
+        if (food1Value == "Healthy Food")
+        {
+            HealthyFood();
+        }
+        else if (food1Value == "Junk Food")
+        {
+            JunkFood();
+        }
+        else if (food2Value == "Healthy Food")
+        {
+            HealthyFood();
+        }
+        else if (food2Value == "Junk Food")
+        {
+            JunkFood();
+        }
+        else if (food3Value == "Healthy Food")
+        {
+            HealthyFood();
+        }
+        else if (food3Value == "Junk Food")
+        {
+            JunkFood();
+        }
+    }
+    public void JunkFood(){    
         food += 20;
         energy += 10;
         Debug.Log("I ate nigga food");
@@ -134,5 +162,15 @@ public class NeedsController : MonoBehaviour
     {
         Debug.Log("I am taking a bath");
         hygiene += 20;
+    }
+    public void RandomizeFood()
+    {
+        string[] foodOptions = { "Healthy Food", "Junk Food" };
+        food1.text = foodOptions[Random.Range(0, 2)]; // Corrected range to include both indices
+        food2.text = foodOptions[Random.Range(0, 2)]; // Corrected range to include both indices
+        food3.text = foodOptions[Random.Range(0, 2)]; // Corrected range to include both indices
+        food1Value = food1.text;
+        food2Value = food2.text;
+        food3Value = food3.text;
     }
 }
