@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class NeedsController : MonoBehaviour
 {
+   private KitchenUIController kitchenUI;
    public int food, sleep ,energy, hygiene;
    public bool Sleeping = false;
    public int SleepRecoveryRate;
@@ -86,9 +87,20 @@ public class NeedsController : MonoBehaviour
     }
    
    }
-    public void JunkFood()
-    {
-        
+   public void FoodChoice()
+{
+    if (kitchenUI.food1Value == "Healthy Food") HealthyFood();
+    else if (kitchenUI.food1Value == "Junk Food") JunkFood();
+
+    if (kitchenUI.food2Value == "Healthy Food") HealthyFood();
+    else if (kitchenUI.food2Value == "Junk Food") JunkFood();
+
+    if (kitchenUI.food3Value == "Healthy Food") HealthyFood();
+    else if (kitchenUI.food3Value == "Junk Food") JunkFood();
+}
+
+
+    public void JunkFood(){    
         food += 20;
         energy += 10;
         Debug.Log("I ate nigga food");
@@ -100,6 +112,7 @@ public class NeedsController : MonoBehaviour
         food += 20;
         energy += 20;
     }
+
     public void Sleep(int amount){
         Debug.Log("I am sleeping n");
         Sleeping = true;

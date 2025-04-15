@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      boy-bed_0: 1034399491598994141
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

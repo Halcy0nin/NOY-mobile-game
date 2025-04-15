@@ -840,7 +840,7 @@ GameObject:
   - component: {fileID: 264714916}
   - component: {fileID: 264714915}
   m_Layer: 5
-  m_Name: Food
+  m_Name: FoodA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1492,7 +1492,7 @@ GameObject:
   - component: {fileID: 511634505}
   - component: {fileID: 511634504}
   m_Layer: 5
-  m_Name: Food (1)
+  m_Name: FoodB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2413,7 +2413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1038057914
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3809,7 +3809,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1482055977
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4752,7 +4752,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1679479401
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5883,7 +5883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2071999427
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6017,7 +6017,7 @@ GameObject:
   - component: {fileID: 2074219163}
   - component: {fileID: 2074219162}
   m_Layer: 5
-  m_Name: Food (2)
+  m_Name: FoodC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6153,7 +6153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2076171797
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6193,12 +6193,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthyFoodImages:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  junkFoodImages: []
+  - {fileID: -3387206023823051569, guid: 014308778d43e974cbef119c419b0e73, type: 3}
+  - {fileID: 3287887333537381538, guid: 2bbc8aff993299244834c63207cade74, type: 3}
+  - {fileID: 8672503863117526295, guid: f360d7f2b2ba27143a7db8daf5990f52, type: 3}
+  - {fileID: -8548542629453518972, guid: fb6b4480b5420544a8bdcb000e0427c7, type: 3}
+  - {fileID: -5842052867381997743, guid: 2de708445a517bf4fb64d285781caa87, type: 3}
+  junkFoodImages:
+  - {fileID: 6535077668085723412, guid: c50ed6ed2b408544ebd9e3671046e780, type: 3}
+  - {fileID: -6594690133920751573, guid: 53511ffea0473de41b426f53092ce022, type: 3}
+  - {fileID: 2198202359762605557, guid: b43b95a7570630942ad71708ce132ef6, type: 3}
+  - {fileID: -8707460424934333825, guid: b2b143d2209238d4fbefd609b4e838f0, type: 3}
+  - {fileID: 6440376437937450844, guid: 86acbc5b84b07e14680b87413c99b9cb, type: 3}
+  foodA: {fileID: 264714915}
+  foodB: {fileID: 511634504}
+  foodC: {fileID: 2074219162}
+  food1: {fileID: 1679479402}
+  food2: {fileID: 1482055978}
+  food3: {fileID: 2071999428}
+  food1Value: 
+  food2Value: 
+  food3Value: 
 --- !u!1001 &2303699392425639102
 PrefabInstance:
   m_ObjectHideFlags: 0
