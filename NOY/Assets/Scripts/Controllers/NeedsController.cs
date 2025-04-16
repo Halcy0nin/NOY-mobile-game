@@ -6,6 +6,9 @@ using System.Collections;
 public class NeedsController : MonoBehaviour
 {
    public KitchenUIController kitchenUI;
+   public string petGender;
+   public Sprite petSprite;
+   public Sprite[] petSprites;
    private int cooldownsRemaining = 0;
    public float CoRoutineValue;
    public string food1Value, food2Value, food3Value;
@@ -19,6 +22,7 @@ public class NeedsController : MonoBehaviour
 
    public bool Sleeping = false;
    public int SleepRecoveryRate;
+
 
    public void Initialize( int food, int sleep, int energy, int hygiene)
    {
@@ -63,8 +67,23 @@ public class NeedsController : MonoBehaviour
             energy = 100;
         }
    }
+       public void SetSprite()
+    {
+        if(petGender=="M")
+        {
+            GetComponent<SpriteRenderer>().sprite = petSprites[0];
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().sprite = petSprites[1];
+        }
+    }
+
     public void Start()
     {
+
+        petGender = GameDataManager.petGender;
+        SetSprite();
         saveManager = FindFirstObjectByType<SaveManager>();
 
         // Load data from JSON
@@ -123,6 +142,7 @@ public class NeedsController : MonoBehaviour
         hygiene=5;
     }
    
+
    }
    public void FoodChoice1()
     {
