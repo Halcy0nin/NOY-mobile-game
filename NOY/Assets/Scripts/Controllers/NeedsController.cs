@@ -1,17 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Collections;
 
 public class NeedsController : MonoBehaviour
 {
-   private KitchenUIController kitchenUI;
-   private SaveManager saveManager;
-   public int food, sleep ,energy, hygiene;
+   public KitchenUIController kitchenUI;
+   private int cooldownsRemaining = 0;
+   public float CoRoutineValue;
    public string food1Value, food2Value, food3Value;
-   public bool Sleeping = false;
-   public int SleepRecoveryRate;
    public int foodTickRate, sleepTickRate, energyTickRate, hygieneTickRate;
    public TMPro.TextMeshProUGUI food1, food2, food3;
+
+   private SaveManager saveManager;
+
+   public int food, sleep ,energy, hygiene;
+
+
+   public bool Sleeping = false;
+   public int SleepRecoveryRate;
+
    public void Initialize( int food, int sleep, int energy, int hygiene)
    {
        this.food = food;
@@ -37,6 +45,22 @@ public class NeedsController : MonoBehaviour
                 Debug.Log("Sleep not calculated properly");
             }
             ChangeHygieneStats(-hygieneTickRate);
+        }
+        if (food > 100)
+        {
+            food = 100;
+        }
+        if (hygiene > 100)
+        {
+            hygiene = 100;
+        }
+        if (sleep > 100)
+        {
+            sleep = 100;
+        }
+        if (energy > 100)
+        {
+            energy = 100;
         }
    }
     public void Start()
@@ -71,10 +95,6 @@ public class NeedsController : MonoBehaviour
         PetManager.Instance.Death();
         food= 5;
     }
-    else if (food > 100)
-    {
-        food = 100;
-    }
    }
    public void ChangeSleepStats(int amount)
    {
@@ -83,10 +103,6 @@ public class NeedsController : MonoBehaviour
     {
         PetManager.Instance.Death();
         sleep=5;
-    }
-    else if (sleep > 100)
-    {
-        sleep = 100;
     }
    }
    public void ChangeEnergyStats(int amount)
@@ -97,10 +113,6 @@ public class NeedsController : MonoBehaviour
         PetManager.Instance.Death();
         energy=5;
     }
-    else if (energy > 100)
-    {
-        energy = 100;
-    }
    }
    public void ChangeHygieneStats(int amount)
    {
@@ -110,64 +122,59 @@ public class NeedsController : MonoBehaviour
         PetManager.Instance.Death();
         hygiene=5;
     }
-    else if (hygiene > 100)
-    {
-        hygiene = 100;
-    }
    
    }
-   public void FoodChoice()
-{
-    if (kitchenUI.food1Value == "Healthy Food") HealthyFood();
-    else if (kitchenUI.food1Value == "Junk Food") JunkFood();
-
-    if (kitchenUI.food2Value == "Healthy Food") HealthyFood();
-    else if (kitchenUI.food2Value == "Junk Food") JunkFood();
-
-    if (kitchenUI.food3Value == "Healthy Food") HealthyFood();
-    else if (kitchenUI.food3Value == "Junk Food") JunkFood();
-}
-
-
-    public void JunkFood(){    
-    public void FoodChoice()
+   public void FoodChoice1()
     {
-        if (food1Value == "Healthy Food")
+        ProcessFood(kitchenUI.food1Value, kitchenUI.foodA);
+    }
+
+    public void FoodChoice2()
+    {
+        ProcessFood(kitchenUI.food2Value, kitchenUI.foodB);
+    }
+
+    public void FoodChoice3()
+    {
+        ProcessFood(kitchenUI.food3Value, kitchenUI.foodC);
+    }
+
+    void ProcessFood(string foodType, Button button)
+    {
+        if (!button.interactable) return;
+        if (foodType == "Healthy Food") HealthyFood();
+        else if (foodType == "Junk Food") JunkFood();
+        cooldownsRemaining++;
+        StartCoroutine(FoodCooldown(button, CoRoutineValue)); 
+    }
+
+    IEnumerator FoodCooldown(Button button, float cooldownDuration)
+    {
+        button.interactable = false;
+        yield return new WaitForSeconds(cooldownDuration);
+        button.interactable = true;
+
+        cooldownsRemaining--;
+
+        // If all food buttons have finished cooldown, randomize again
+        if (cooldownsRemaining <= 0)
         {
-            HealthyFood();
-        }
-        else if (food1Value == "Junk Food")
-        {
-            JunkFood();
-        }
-        else if (food2Value == "Healthy Food")
-        {
-            HealthyFood();
-        }
-        else if (food2Value == "Junk Food")
-        {
-            JunkFood();
-        }
-        else if (food3Value == "Healthy Food")
-        {
-            HealthyFood();
-        }
-        else if (food3Value == "Junk Food")
-        {
-            JunkFood();
+            kitchenUI.RandomizeFood();
         }
     }
-    public void JunkFood(){    
+
+    public void JunkFood()
+    {
         food += 20;
         energy += 10;
-        Debug.Log("I ate nigga food");
+        Debug.Log("Ate junk food");
     }
+
     public void HealthyFood()
     {
-        
-        Debug.Log("I ate white food");
         food += 20;
         energy += 20;
+        Debug.Log("Ate healthy food");
     }
 
     public void Sleep(int amount){
@@ -204,16 +211,6 @@ public class NeedsController : MonoBehaviour
     {
         Debug.Log("I am taking a bath");
         hygiene += 20;
-    }
-    public void RandomizeFood()
-    {
-        string[] foodOptions = { "Healthy Food", "Junk Food" };
-        food1.text = foodOptions[UnityEngine.Random.Range(0, 2)]; // Corrected range to include both indices
-        food2.text = foodOptions[UnityEngine.Random.Range(0, 2)]; // Corrected range to include both indices
-        food3.text = foodOptions[UnityEngine.Random.Range(0, 2)]; // Corrected range to include both indices
-        food1Value = food1.text;
-        food2Value = food2.text;
-        food3Value = food3.text;
     }
     void OnApplicationQuit()
     {

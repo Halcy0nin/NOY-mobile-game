@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+
 public class KitchenUIController : MonoBehaviour
 {
 public Sprite[] healthyFoodImages;
@@ -24,15 +25,19 @@ public string food1Value, food2Value, food3Value;
     public void RandomizeFood()
     {
         string[] foodOptions = { "Healthy Food", "Junk Food" };
-        food1.text = foodOptions[UnityEngine.Random.Range(0, 2)]; // Corrected range to include both indices
-        food2.text = foodOptions[UnityEngine.Random.Range(0, 2)]; // Corrected range to include both indices
-        food3.text = foodOptions[UnityEngine.Random.Range(0, 2)]; // Corrected range to include both indices
-        food1Value = food1.text;
-        food2Value = food2.text;
-        food3Value = food3.text;
+
+        // Ensure at least one is healthy
+        int healthyIndex = UnityEngine.Random.Range(0, 3); // Pick 0, 1, or 2 to be healthy
+
+        food1Value = (healthyIndex == 0) ? "Healthy Food" : foodOptions[UnityEngine.Random.Range(0, 2)];
+        food2Value = (healthyIndex == 1) ? "Healthy Food" : foodOptions[UnityEngine.Random.Range(0, 2)];
+        food3Value = (healthyIndex == 2) ? "Healthy Food" : foodOptions[UnityEngine.Random.Range(0, 2)];
+
+        food1.text = food1Value;
+        food2.text = food2Value;
+        food3.text = food3Value;
 
         SetRandomFoodSprite();
-
     }
 
     public void SetSpriteBasedOnType(Image targetImage, string foodType)

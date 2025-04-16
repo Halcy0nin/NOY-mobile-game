@@ -9,7 +9,7 @@ public class SaveManager : MonoBehaviour
     void Awake()
     {
         // Set the path where the JSON file will be saved (inside Scripts/SaveFile)
-        savePath = Application.dataPath + "/Scripts/SaveFile/pet_save.json";
+        savePath = Path.Combine(Application.persistentDataPath, "pet_save.json");
 
         // Log the save path for debugging purposes
         Debug.Log("Saving to: " + savePath);
