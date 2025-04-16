@@ -4,6 +4,7 @@ using System;
 
 public class NeedsController : MonoBehaviour
 {
+   private KitchenUIController kitchenUI;
    private SaveManager saveManager;
    public int food, sleep ,energy, hygiene;
    public string food1Value, food2Value, food3Value;
@@ -115,6 +116,20 @@ public class NeedsController : MonoBehaviour
     }
    
    }
+   public void FoodChoice()
+{
+    if (kitchenUI.food1Value == "Healthy Food") HealthyFood();
+    else if (kitchenUI.food1Value == "Junk Food") JunkFood();
+
+    if (kitchenUI.food2Value == "Healthy Food") HealthyFood();
+    else if (kitchenUI.food2Value == "Junk Food") JunkFood();
+
+    if (kitchenUI.food3Value == "Healthy Food") HealthyFood();
+    else if (kitchenUI.food3Value == "Junk Food") JunkFood();
+}
+
+
+    public void JunkFood(){    
     public void FoodChoice()
     {
         if (food1Value == "Healthy Food")
@@ -154,6 +169,7 @@ public class NeedsController : MonoBehaviour
         food += 20;
         energy += 20;
     }
+
     public void Sleep(int amount){
         Debug.Log("I am sleeping n");
         Sleeping = true;
