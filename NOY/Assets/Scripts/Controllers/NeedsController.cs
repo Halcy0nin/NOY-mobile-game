@@ -1,11 +1,16 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System;
 
 public class NeedsController : MonoBehaviour
 {
+   private SaveManager saveManager;
    public int food, sleep ,energy, hygiene;
+   public string food1Value, food2Value, food3Value;
    public bool Sleeping = false;
    public int SleepRecoveryRate;
    public int foodTickRate, sleepTickRate, energyTickRate, hygieneTickRate;
+   public TMPro.TextMeshProUGUI food1, food2, food3;
    public void Initialize( int food, int sleep, int energy, int hygiene)
    {
        this.food = food;
@@ -33,6 +38,30 @@ public class NeedsController : MonoBehaviour
             ChangeHygieneStats(-hygieneTickRate);
         }
    }
+    public void Start()
+    {
+        saveManager = FindFirstObjectByType<SaveManager>();
+
+        // Load data from JSON
+        PetSaveData data = saveManager.LoadData();
+        
+        if (data != null)
+        {
+            // Restore stats from loaded data
+            Initialize(data.food, data.sleep, data.energy, data.hygiene);
+
+            // Calculate the time away using the saved timestamp
+            DateTime lastSavedTime = DateTime.FromBinary(Convert.ToInt64(data.lastSavedTime));
+            TimeSpan timeAway = DateTime.Now - lastSavedTime;
+
+            // Get the minutes away
+            float minutesAway = (float)timeAway.TotalMinutes;
+            Debug.Log("Time away: " + minutesAway + " minutes");
+
+            // Apply offline decay based on the time away
+            ApplyOfflineDecay(minutesAway);
+        }
+    }
    public void ChangeFoodStats(int amount)
    {
     food += amount;
@@ -86,9 +115,34 @@ public class NeedsController : MonoBehaviour
     }
    
    }
-    public void JunkFood()
+    public void FoodChoice()
     {
-        
+        if (food1Value == "Healthy Food")
+        {
+            HealthyFood();
+        }
+        else if (food1Value == "Junk Food")
+        {
+            JunkFood();
+        }
+        else if (food2Value == "Healthy Food")
+        {
+            HealthyFood();
+        }
+        else if (food2Value == "Junk Food")
+        {
+            JunkFood();
+        }
+        else if (food3Value == "Healthy Food")
+        {
+            HealthyFood();
+        }
+        else if (food3Value == "Junk Food")
+        {
+            JunkFood();
+        }
+    }
+    public void JunkFood(){    
         food += 20;
         energy += 10;
         Debug.Log("I ate nigga food");
@@ -134,5 +188,46 @@ public class NeedsController : MonoBehaviour
     {
         Debug.Log("I am taking a bath");
         hygiene += 20;
+    }
+    public void RandomizeFood()
+    {
+        string[] foodOptions = { "Healthy Food", "Junk Food" };
+        food1.text = foodOptions[UnityEngine.Random.Range(0, 2)]; // Corrected range to include both indices
+        food2.text = foodOptions[UnityEngine.Random.Range(0, 2)]; // Corrected range to include both indices
+        food3.text = foodOptions[UnityEngine.Random.Range(0, 2)]; // Corrected range to include both indices
+        food1Value = food1.text;
+        food2Value = food2.text;
+        food3Value = food3.text;
+    }
+    void OnApplicationQuit()
+    {
+        saveManager.SaveData(this);
+    }
+
+    void OnApplicationPause(bool pause)
+    {
+        if (pause)
+            saveManager.SaveData(this);
+    }
+    public void ApplyOfflineDecay(float minutesAway)
+    {
+        int foodLoss = Mathf.RoundToInt(foodTickRate * minutesAway);
+        int sleepLoss = Mathf.RoundToInt(sleepTickRate * minutesAway);
+        int energyLoss = Mathf.RoundToInt(energyTickRate * minutesAway);
+        int hygieneLoss = Mathf.RoundToInt(hygieneTickRate * minutesAway);
+
+        ChangeFoodStats(-foodLoss);
+        
+        if (!Sleeping)
+        {
+            ChangeSleepStats(-sleepLoss);
+            ChangeEnergyStats(-energyLoss);
+        }
+        else
+        {
+            Sleep(Mathf.RoundToInt(SleepRecoveryRate * minutesAway));
+        }
+
+        ChangeHygieneStats(-hygieneLoss);
     }
 }
