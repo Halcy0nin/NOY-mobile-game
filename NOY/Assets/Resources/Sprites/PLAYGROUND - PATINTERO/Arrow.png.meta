@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8d5798ff7bb27e340a435ee136a8ad75
+guid: 8a6d5d63dbbebfb47983d71eda5d6770
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1296763635817373291
-    second: 3cik_rq5f_220304_0
+      213: -4346244404228752641
+    second: Arrow_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -97,19 +97,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -126,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 3cik_rq5f_220304_0
+      name: Arrow_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 4465
-        height: 5515
+        x: 8
+        y: 22
+        width: 48
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b6ed98ef7a70ff110800000000000000
-      internalID: 1296763635817373291
+      spriteID: ffa7ae2edb90fa3c0800000000000000
+      internalID: -4346244404228752641
       vertices: []
       indices: 
       edges: []
@@ -160,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      3cik_rq5f_220304_0: 1296763635817373291
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
