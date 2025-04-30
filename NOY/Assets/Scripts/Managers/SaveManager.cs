@@ -58,4 +58,22 @@ public class SaveManager : MonoBehaviour
             return null;
         }
     }
+        // Save just the high score
+    public void SaveHighScore(int score)
+    {
+        PetSaveData data = LoadData() ?? new PetSaveData();
+        data.highScore = score;
+
+        string json = JsonUtility.ToJson(data, true);
+        File.WriteAllText(savePath, json);
+        Debug.Log("High score saved to: " + savePath);
+    }
+
+    // Load just the high score
+    public int LoadHighScore()
+    {
+        PetSaveData data = LoadData();
+        return data != null ? data.highScore : 0;
+    }
+
 }
