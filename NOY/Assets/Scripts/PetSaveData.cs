@@ -8,5 +8,8 @@ public class PetSaveData
     public int energy;
     public int hygiene;
     public string lastSavedTime;
+}
+public class ScoreSaveData
+{
     public int highScore;
 }

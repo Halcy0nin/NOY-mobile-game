@@ -84,8 +84,8 @@ public class NeedsController : MonoBehaviour
 
         petGender = GameDataManager.petGender;
         SetSprite();
-        saveManager = FindFirstObjectByType<SaveManager>();
 
+        saveManager = FindFirstObjectByType<SaveManager>();
         // Load data from JSON
         PetSaveData data = saveManager.LoadData();
         
@@ -210,9 +210,11 @@ public class NeedsController : MonoBehaviour
         {
             energy = 100;
         }
+        
     }
     public void WakingUp(){
         Sleeping = false;
+        
     }
     public void CharacterSleeping()
     {
@@ -262,5 +264,11 @@ public class NeedsController : MonoBehaviour
         }
 
         ChangeHygieneStats(-hygieneLoss);
+    }
+    public void CharSpriteWhileSleeping(){
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+    }
+    public void CharSpriteWhileAwake(){
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 }
