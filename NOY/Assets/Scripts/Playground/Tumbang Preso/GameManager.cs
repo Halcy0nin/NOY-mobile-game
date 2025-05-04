@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using Unity.Android.Gradle.Manifest;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,19 +21,23 @@ public class GameManager : MonoBehaviour
     public Image forceBar;
     public Image directionArrow;
 
-    private string savePath;
-
+    public void InitializeScore(int highScore)
+    {
+        this.highScore = highScore;
+    }
     void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-
-        savePath = Path.Combine(Application.persistentDataPath, "highscore.json");
-        LoadHighScore();
     }
 
     void Start()
-    {
+    {   
+        ScoreSaveData data = saveManager.LoadHighScore();
+        if (data != null)
+        {
+            InitializeScore(data.highScore);
+        }
         if (forceBar != null)
         forceBar.fillAmount = 0f; // Reset force bar at the start
         gameOverPanel.SetActive(false);
@@ -100,18 +105,15 @@ public class GameManager : MonoBehaviour
     }
 
     void UpdateScoreText()
-    {
+    {  
         scoreText.text = "Score: " + score;
     }
 
-    void LoadHighScore()
-    {
-        highScore = saveManager.LoadHighScore();
-    }
 
     void SaveHighScore()
     {
         saveManager.SaveHighScore(score);
+        
     }
 
     [System.Serializable]

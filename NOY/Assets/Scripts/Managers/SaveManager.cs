@@ -1,18 +1,22 @@
 using System.IO;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class SaveManager : MonoBehaviour
 {
     private string savePath;
+    private string savepathforHighScore;
 
     // This is called when the SaveManager is created/initialized
     void Awake()
     {
         // Set the path where the JSON file will be saved (inside Scripts/SaveFile)
         savePath = Path.Combine(Application.persistentDataPath, "pet_save.json");
+        savepathforHighScore = Path.Combine(Application.persistentDataPath, "highscore.json");
 
         // Log the save path for debugging purposes
         Debug.Log("Saving to: " + savePath);
+        Debug.Log("Saving high score to: " + savepathforHighScore);
     }
 
     // Save the data from NeedsController into a JSON file
@@ -25,13 +29,10 @@ public class SaveManager : MonoBehaviour
             sleep = needs.sleep,
             energy = needs.energy,
             hygiene = needs.hygiene,
-            lastSavedTime = System.DateTime.Now.ToBinary().ToString() // Save the current time
+            lastSavedTime = System.DateTime.Now.ToBinary().ToString()
         };
 
-        // Convert the data to a JSON string
         string json = JsonUtility.ToJson(data, true);
-
-        // Ensure the directory exists before saving the file
         Directory.CreateDirectory(Path.GetDirectoryName(savePath));
 
         // Write the JSON string to the file
@@ -61,19 +62,29 @@ public class SaveManager : MonoBehaviour
         // Save just the high score
     public void SaveHighScore(int score)
     {
-        PetSaveData data = LoadData() ?? new PetSaveData();
-        data.highScore = score;
+        ScoreSaveData info = new ScoreSaveData
+        {
+            highScore = score
+        };
 
-        string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(savePath, json);
-        Debug.Log("High score saved to: " + savePath);
+        string json = JsonUtility.ToJson(info, true);
+        File.WriteAllText(savepathforHighScore, json);
+        Debug.Log("High score saved to: " + savepathforHighScore);
     }
-
-    // Load just the high score
-    public int LoadHighScore()
+    public ScoreSaveData LoadHighScore()
     {
-        PetSaveData data = LoadData();
-        return data != null ? data.highScore : 0;
+        if (File.Exists(savepathforHighScore))
+        {
+            string json = File.ReadAllText(savepathforHighScore);
+            ScoreSaveData info = JsonUtility.FromJson<ScoreSaveData>(json);
+            Debug.Log("High score loaded from: " + savepathforHighScore);
+            return info;
+        }
+        else
+        {
+            Debug.Log("No saved data found.");
+            return null;
+        }
     }
 
 }
