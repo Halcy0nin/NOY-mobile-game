@@ -7,18 +7,16 @@ public class SaveManager : MonoBehaviour
     private string savePath;
     private string savepathforHighScore;
 
-    private string pabitinHighScorePath;
-
     // This is called when the SaveManager is created/initialized
     void Awake()
     {
+        // Set the path where the JSON file will be saved (inside Scripts/SaveFile)
         savePath = Path.Combine(Application.persistentDataPath, "pet_save.json");
         savepathforHighScore = Path.Combine(Application.persistentDataPath, "highscore.json");
-        pabitinHighScorePath = Path.Combine(Application.persistentDataPath, "pabitin_highscore.json");
 
+        // Log the save path for debugging purposes
         Debug.Log("Saving to: " + savePath);
         Debug.Log("Saving high score to: " + savepathforHighScore);
-        Debug.Log("Saving pabitin high score to: " + pabitinHighScorePath);
     }
 
     // Save the data from NeedsController into a JSON file
@@ -85,33 +83,6 @@ public class SaveManager : MonoBehaviour
         else
         {
             Debug.Log("No saved data found.");
-            return null;
-        }
-    }
-    public void SavePabitinHighScore(int score)
-    {
-        PabitinScoreSaveData pabitinScore = new PabitinScoreSaveData
-        {
-            pabitinHighScore = score
-        };
-
-        string json = JsonUtility.ToJson(pabitinScore, true);
-        File.WriteAllText(pabitinHighScorePath, json);
-        Debug.Log("Pabitin high score saved to: " + pabitinHighScorePath);
-    }
-
-    public PabitinScoreSaveData LoadPabitinHighScore()
-    {
-        if (File.Exists(pabitinHighScorePath))
-        {
-            string json = File.ReadAllText(pabitinHighScorePath);
-            PabitinScoreSaveData pabitinScore = JsonUtility.FromJson<PabitinScoreSaveData>(json);
-            Debug.Log("Pabitin high score loaded from: " + pabitinHighScorePath);
-            return pabitinScore;
-        }
-        else
-        {
-            Debug.Log("No saved Pabitin high score found.");
             return null;
         }
     }

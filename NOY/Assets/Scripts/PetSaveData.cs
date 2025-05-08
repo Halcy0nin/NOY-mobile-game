@@ -13,8 +13,3 @@ public class ScoreSaveData
 {
     public int highScore;
 }
-
-public class PabitinScoreSaveData
-{
-    public int pabitinHighScore;
-}
