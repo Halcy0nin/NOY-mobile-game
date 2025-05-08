@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
-using Unity.Android.Gradle.Manifest;
 
 public class GameManager : MonoBehaviour
 {
