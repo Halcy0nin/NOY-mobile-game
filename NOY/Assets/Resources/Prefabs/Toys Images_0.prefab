@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6574845340973903111}
   - component: {fileID: 621578534083111733}
   - component: {fileID: 3865153064658379008}
-  - component: {fileID: -5534510897793768558}
   m_Layer: 0
   m_Name: Toys Images_0
   m_TagString: Untagged
@@ -176,29 +175,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e0efc69c5329d46aab10f99621950e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!233 &-5534510897793768558
-HingeJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3393828273409075419}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_BreakAction: 3
-  m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
-  m_UseConnectedAnchor: 1
-  m_UseMotor: 0
-  m_Motor:
-    m_MotorSpeed: 0
-    m_MaximumMotorForce: 10000
-  m_UseLimits: 0
-  m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 359
