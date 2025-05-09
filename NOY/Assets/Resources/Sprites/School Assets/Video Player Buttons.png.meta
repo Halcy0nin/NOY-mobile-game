@@ -197,10 +197,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Video Player Buttons_0: -6029485897596371659
-      Video Player Buttons_1: -3282501070915782513
-      Video Player Buttons_2: -7979092564128785740
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
