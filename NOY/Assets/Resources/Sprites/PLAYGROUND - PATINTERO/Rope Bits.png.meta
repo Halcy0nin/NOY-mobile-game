@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b9fc3cfbdc267394cbb56919634d2ff5
+guid: b625d7df998154448a07e698acfe21c2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2618000798541105028
-    second: Slippers_0
+      213: 8330996497983426811
+    second: Rope Bits_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Slippers_0
+      name: Rope Bits_0
       rect:
         serializedVersion: 2
-        x: 51
-        y: 33
-        width: 135
-        height: 322
+        x: 6
+        y: 0
+        width: 24
+        height: 71
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4874bb20bd1055420800000000000000
-      internalID: 2618000798541105028
+      spriteID: bf05357ec25ad9370800000000000000
+      internalID: 8330996497983426811
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Slippers_0: 2618000798541105028
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
