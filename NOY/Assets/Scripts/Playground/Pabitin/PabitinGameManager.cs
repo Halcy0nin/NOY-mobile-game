@@ -27,6 +27,10 @@ public class PabitinGameManager : MonoBehaviour
     [SerializeField] private PabitinPrizeSpawner spawner;
     [SerializeField] private SaveManager saveManager;
 
+    [Header("Countdown")]
+    [SerializeField] private GameObject startCountdownPanel;
+    [SerializeField] private TextMeshProUGUI startCountdownText;
+
     private List<float> loweredYPositions = new List<float>();
     private List<float> raisedYPositions = new List<float>();
 
@@ -68,16 +72,31 @@ public class PabitinGameManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    private IEnumerator StartGameRoutine()
     {
         score = 0;
         currentSet = 0;
         isCollecting = false;
 
         UpdateScoreUI();
-        timerText.text = "Time: 0";
         gameOverPanel.SetActive(false);
-        setPanel.SetActive(false);
+        timerText.text = "Time: 0";
+
+        // Show countdown UI
+        startCountdownPanel.SetActive(true);
+
+        float countdown = 3f;
+        while (countdown > 0)
+        {
+            startCountdownText.text = $"Game starts in {Mathf.CeilToInt(countdown)}";
+            countdown -= Time.deltaTime;
+            yield return null;
+        }
+
+        startCountdownPanel.SetActive(false);
+
+        MoveAnchorsInstantly(true); // ensure ropes are up before game starts
+        yield return new WaitForSeconds(0.2f); // brief pause before first lowering
 
         StartCoroutine(HandleNextSet());
     }
@@ -92,7 +111,7 @@ public class PabitinGameManager : MonoBehaviour
         if (timer <= 0f)
         {
             isCollecting = false;
-            StartCoroutine(RaiseAnchorsSmoothly());
+            StartCoroutine(HandleSetTransition());
         }
     }
 
@@ -109,21 +128,26 @@ public class PabitinGameManager : MonoBehaviour
         isCollecting = true;
     }
 
-    private IEnumerator RaiseAnchorsSmoothly()
+    private IEnumerator HandleSetTransition()
     {
-        yield return StartCoroutine(MoveAnchorsSmoothly(true)); // Raise
-
-        // Show Set Completion UI if not final set
+        // Show set panel immediately
         if (currentSet < maxSets)
-        {
             setPanel.SetActive(true);
-            yield return StartCoroutine(ShowSetCompleteMessage(currentSet, waitBeforeNextRound));
-            setPanel.SetActive(false);
-        }
-        else
+
+        float remaining = waitBeforeNextRound;
+
+        // Start raising ropes in background
+        StartCoroutine(MoveAnchorsSmoothly(true));
+
+        // Countdown on set panel
+        while (remaining > 0f)
         {
-            yield return new WaitForSeconds(waitBeforeNextRound);
+            setText.text = $"Set {currentSet} complete. Please wait for {remaining:F1} secs.";
+            remaining -= Time.deltaTime;
+            yield return null;
         }
+
+        setPanel.SetActive(false);
 
         StartCoroutine(HandleNextSet());
     }
@@ -225,4 +249,9 @@ public class PabitinGameManager : MonoBehaviour
     {
         saveManager.SavePabitinHighScore(score);
     }
+    public void OnStartButtonPressed()
+    {
+        StartCoroutine(StartGameRoutine());
+    }
+
 }

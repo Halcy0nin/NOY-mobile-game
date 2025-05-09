@@ -2,10 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
-using Unity.Android.Gradle.Manifest;
-
+using System.Collections;
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject startCountdownPanel;
+    [SerializeField] private TMP_Text startCountdownText;
     public static GameManager Instance;
     [SerializeField] private SaveManager saveManager;
     public GameObject slipperPrefab;
@@ -74,10 +75,13 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        StartCoroutine(RestartGameRoutine());
+    }
+
+    private IEnumerator RestartGameRoutine()
+    {
         score = 0;
         gameOverPanel.SetActive(false);
-        if (forceBar != null)
-        forceBar.fillAmount = 0f; // Reset force bar at the start
         UpdateScoreText();
 
         // Destroy existing slipper if one exists
@@ -87,6 +91,24 @@ public class GameManager : MonoBehaviour
             Destroy(existingSlipper);
         }
 
+        // Show countdown panel
+        startCountdownPanel.SetActive(true);
+
+        float countdown = 3f;
+        while (countdown > 0)
+        {
+            startCountdownText.text = $"Game starts in {Mathf.CeilToInt(countdown)}";
+            countdown -= Time.deltaTime;
+            yield return null;
+        }
+
+        startCountdownPanel.SetActive(false);
+
+        // Reset force bar
+        if (forceBar != null)
+            forceBar.fillAmount = 0f;
+
+        // Start game
         SpawnSlipper();
     }
 
