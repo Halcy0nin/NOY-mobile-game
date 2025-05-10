@@ -10,8 +10,8 @@ public class SlipperThrow2D : MonoBehaviour
 
     [Header("UI Elements")]
     private Transform arrowTransform;
-    private Image forceBar;    // UI Image with Fill Method set
-    
+    private Image forceBar; // UI Image with Fill Method set
+
     private Rigidbody2D rb;
     private bool thrown = false;
     private Vector2 startTouch;
@@ -53,11 +53,13 @@ public class SlipperThrow2D : MonoBehaviour
             }
         }
     }
+
     public void SetUIReferences(Transform arrow, Image force)
     {
         arrowTransform = arrow;
         forceBar = force;
     }
+
     void HandleMouseInput()
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
@@ -110,16 +112,11 @@ public class SlipperThrow2D : MonoBehaviour
 
         if (arrowTransform != null)
         {
-            // Position the arrow at the slipper (or start point)
-            arrowTransform.position = transform.position;
-
-            // Rotate to show direction of throw
+            // Only rotate the arrow to show direction
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             arrowTransform.rotation = Quaternion.Euler(0, 0, angle);
 
-            // Optionally scale based on force
-            arrowTransform.localScale = new Vector3(1f, 1f + normalizedForce * 1.5f, 1f); 
-            // You can adjust the Y-scaling factor for visual length
+            // Keep position and scale unchanged
         }
 
         if (forceBar != null)
@@ -150,6 +147,4 @@ public class SlipperThrow2D : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-
 }

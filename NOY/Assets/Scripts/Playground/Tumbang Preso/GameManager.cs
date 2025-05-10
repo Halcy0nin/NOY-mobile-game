@@ -68,8 +68,8 @@ public class GameManager : MonoBehaviour
             SaveHighScore();
         }
 
-        finalScoreText.text = "Score: " + score;
-        highScoreText.text = "High Score: " + highScore;
+        finalScoreText.text = "" + score;
+        highScoreText.text = "" + highScore;
         gameOverPanel.SetActive(true);
     }
 
