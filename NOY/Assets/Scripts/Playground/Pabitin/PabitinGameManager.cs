@@ -142,7 +142,7 @@ public class PabitinGameManager : MonoBehaviour
         // Countdown on set panel
         while (remaining > 0f)
         {
-            setText.text = $"Set {currentSet} complete. Please wait for {remaining:F1} secs.";
+            setText.text = $"Set {currentSet} complete! Next set coming in {remaining:F1} seconds.";
             remaining -= Time.deltaTime;
             yield return null;
         }
