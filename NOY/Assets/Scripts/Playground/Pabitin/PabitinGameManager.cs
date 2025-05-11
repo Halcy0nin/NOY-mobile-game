@@ -56,7 +56,7 @@ public class PabitinGameManager : MonoBehaviour
         if (PabitinData != null)
             InitializePabitinScore(PabitinData.pabitinHighScore);
         else
-            highScoreText.text = "High Score: 0";
+            highScoreText.text = "0";
     }
 
     private void CacheAnchorHeights()
@@ -240,8 +240,8 @@ public class PabitinGameManager : MonoBehaviour
             SavePabitinHighScore();
         }
 
-        finalScoreText.text = "Score: " + score;
-        highScoreText.text = "High Score: " + highScore;
+        finalScoreText.text = "" + score;
+        highScoreText.text = "" + highScore;
         gameOverPanel.SetActive(true);
     }
 
