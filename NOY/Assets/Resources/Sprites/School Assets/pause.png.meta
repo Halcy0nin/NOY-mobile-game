@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: c6d7db1f03d82844da65ede3bc5a648e
+guid: a722b41dedf62fe4eb988873e7f1f3ba
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 130122096508390617
-    second: chalkboard_0
-  - first:
-      213: 7516141009902138982
-    second: chalkboard_1
+      213: -8878088185706026076
+    second: pause_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -129,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: chalkboard_0
+      name: pause_0
       rect:
         serializedVersion: 2
-        x: 171
-        y: 175
-        width: 11
-        height: 767
+        x: 0
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,30 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9dccfcb7b594ec100800000000000000
-      internalID: 130122096508390617
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: chalkboard_1
-      rect:
-        serializedVersion: 2
-        x: 179
-        y: 83
-        width: 5587
-        height: 3576
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 66676f02d62be4860800000000000000
-      internalID: 7516141009902138982
+      spriteID: 4ab666e45d1bac480800000000000000
+      internalID: -8878088185706026076
       vertices: []
       indices: 
       edges: []
@@ -176,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -185,9 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      chalkboard_0: 130122096508390617
-      chalkboard_1: 7516141009902138982
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
