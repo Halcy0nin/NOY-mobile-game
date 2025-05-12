@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,15 +29,21 @@ public class VideoManager : MonoBehaviour
     public Button pausePlayButton;
     public Button restartButton;
     public Slider progressBar;
+    public TMP_Text timeText;
 
     [Header("Control Sprites")]
     public Sprite playSprite;
     public Sprite pauseSprite;
     public Sprite restartSprite;
 
+    [Header("Background Music")]
+    public AudioSource backgroundMusic;
+    public float fadeDuration = 1f;
+
     private bool isPaused = false;
     private bool isDraggingSlider = false;
-    public TMP_Text timeText;
+    private Coroutine musicFadeCoroutine;
+
     string FormatTime(double time)
     {
         int minutes = (int)(time / 60);
@@ -80,7 +87,7 @@ public class VideoManager : MonoBehaviour
             item.transform.Find("Name").GetComponent<TMP_Text>().text = video.videoName;
 
             Button playButton = item.transform.Find("Thumbnail").GetComponent<Button>();
-            VideoClip clip = video.videoClip; // avoid closure issue
+            VideoClip clip = video.videoClip; // prevent closure issue
             playButton.onClick.AddListener(() => PlayVideo(clip));
         }
     }
@@ -94,12 +101,24 @@ public class VideoManager : MonoBehaviour
         videoPlayer.Play();
         isPaused = false;
         UpdatePausePlayIcon();
+
+        if (backgroundMusic != null && backgroundMusic.isPlaying)
+        {
+            if (musicFadeCoroutine != null) StopCoroutine(musicFadeCoroutine);
+            musicFadeCoroutine = StartCoroutine(FadeOutMusic());
+        }
     }
 
     void CloseVideo()
     {
         videoPlayer.Stop();
         videoPlayerPanel.SetActive(false);
+
+        if (backgroundMusic != null)
+        {
+            if (musicFadeCoroutine != null) StopCoroutine(musicFadeCoroutine);
+            musicFadeCoroutine = StartCoroutine(FadeInMusic());
+        }
     }
 
     void TogglePausePlay()
@@ -132,7 +151,6 @@ public class VideoManager : MonoBehaviour
         }
     }
 
-    // Called by the Slider's onValueChanged
     public void OnSliderValueChanged(float value)
     {
         if (isDraggingSlider && videoPlayer.clip != null && videoPlayer.length > 0)
@@ -141,13 +159,11 @@ public class VideoManager : MonoBehaviour
         }
     }
 
-    // Called by EventTrigger -> Begin Drag
     public void OnBeginDrag(BaseEventData data)
     {
         isDraggingSlider = true;
     }
 
-    // Called by EventTrigger -> End Drag
     public void OnEndDrag(BaseEventData data)
     {
         isDraggingSlider = false;
@@ -156,5 +172,34 @@ public class VideoManager : MonoBehaviour
         {
             videoPlayer.time = progressBar.value * videoPlayer.length;
         }
+    }
+
+    IEnumerator FadeOutMusic()
+    {
+        float startVolume = backgroundMusic.volume;
+
+        while (backgroundMusic.volume > 0f)
+        {
+            backgroundMusic.volume -= startVolume * Time.deltaTime / fadeDuration;
+            yield return null;
+        }
+
+        backgroundMusic.Pause();
+        backgroundMusic.volume = startVolume;
+    }
+
+    IEnumerator FadeInMusic()
+    {
+        backgroundMusic.UnPause();
+        float targetVolume = 1f;
+        backgroundMusic.volume = 0f;
+
+        while (backgroundMusic.volume < targetVolume)
+        {
+            backgroundMusic.volume += targetVolume * Time.deltaTime / fadeDuration;
+            yield return null;
+        }
+
+        backgroundMusic.volume = targetVolume;
     }
 }
