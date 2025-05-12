@@ -33,12 +33,14 @@ public class RandomizerScript : MonoBehaviour
 
     void UpdateButtonsBasedOnHygiene()
     {
+        if (isInBathroom)
+            return;
+
         int newRange = GetRangeFromHygiene(needsController.hygiene);
         if (newRange != currentRange)
         {
             currentRange = newRange;
             SpawnButtonsForRange(currentRange);
-            // No more call to RandomizeButtonPositions()
         }
     }
 
@@ -135,6 +137,15 @@ public class RandomizerScript : MonoBehaviour
 
     public void SetIsInBathroom(bool value)
     {
-        isInBathroom = value;
+        if (isInBathroom != value)
+        {
+            isInBathroom = value;
+
+            if (!isInBathroom)
+            {
+                // Force re-evaluation of current range to trigger re-spawn
+                currentRange = -1;
+            }
+        }
     }
 }
