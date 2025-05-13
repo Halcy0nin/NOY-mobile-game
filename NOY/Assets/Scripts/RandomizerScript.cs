@@ -15,94 +15,43 @@ public class RandomizerScript : MonoBehaviour
     public bool isInBathroom = false;
 
     private List<GameObject> spawnedButtons = new List<GameObject>();
-    private int currentRange = -1;
-
-    void Start()
-    {
-        UpdateButtonsBasedOnHygiene();
-    }
+    private bool hasSpawned = false;
+    private const int dirtButtonCount = 10;
 
     void Update()
     {
+        // Clamp hygiene
         if (needsController.hygiene > 100)
             needsController.hygiene = 100;
 
-        UpdateButtonsBasedOnHygiene();
+        // Allow dirt to spawn regardless of bathroom state
+        if (needsController.hygiene <= 70 && !hasSpawned)
+        {
+            SpawnDirtButtons();
+        }
+
+        // Update interactivity (only clickable if in bathroom)
         UpdateButtonInteractivity();
     }
 
-    void UpdateButtonsBasedOnHygiene()
+    private void SpawnDirtButtons()
     {
-        if (isInBathroom)
-            return;
+        hasSpawned = true;
 
-        int newRange = GetRangeFromHygiene(needsController.hygiene);
-        if (newRange != currentRange)
-        {
-            currentRange = newRange;
-            SpawnButtonsForRange(currentRange);
-        }
-    }
-
-
-    int GetRangeFromHygiene(float hygiene)
-    {
-        if (hygiene >= 80) return 0;
-        else if (hygiene >= 60) return 1;
-        else if (hygiene >= 40) return 2;
-        else if (hygiene >= 20) return 3;
-        else return 4;
-    }
-
-    int GetButtonCountForRange(int range)
-    {
-        switch (range)
-        {
-            case 0: return 2;
-            case 1: return 4;
-            case 2: return 6;
-            case 3: return 8;
-            case 4: return 10;
-            default: return 2;
-        }
-    }
-
-    void SpawnButtonsForRange(int range)
-    {
-        int numberOfButtons = GetButtonCountForRange(range);
-        int existingCount = spawnedButtons.Count;
-
-        // Create only the missing buttons
-        for (int i = existingCount; i < numberOfButtons; i++)
+        for (int i = 0; i < dirtButtonCount; i++)
         {
             GameObject newButton = CreateButton();
-            AddClickToHide(newButton);
-            spawnedButtons.Add(newButton);
-
-            // Only randomize position for newly spawned
+            AddClickToDestroy(newButton);
             RandomizePosition(newButton);
-        }
-
-        // Enable only up to the required number
-        for (int i = 0; i < spawnedButtons.Count; i++)
-        {
-            spawnedButtons[i].SetActive(i < numberOfButtons);
+            spawnedButtons.Add(newButton);
         }
     }
-
-    void RandomizePosition(GameObject btn)
-    {
-        RectTransform rt = btn.GetComponent<RectTransform>();
-        float randomX = Random.Range(minX, maxX);
-        float randomY = Random.Range(minY, maxY);
-        rt.anchoredPosition = new Vector2(randomX, randomY);
-    }
-
 
     private GameObject CreateButton()
     {
-        GameObject button = new GameObject("Button", typeof(RectTransform), typeof(Button), typeof(Image));
+        GameObject button = new GameObject("DirtButton", typeof(RectTransform), typeof(Button), typeof(Image));
         button.transform.SetParent(parentContainer, false);
+
         RectTransform rt = button.GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(118, 110);
 
@@ -111,41 +60,48 @@ public class RandomizerScript : MonoBehaviour
         {
             img.sprite = buttonSprites[Random.Range(0, buttonSprites.Count)];
         }
+
         return button;
     }
 
-    void AddClickToHide(GameObject btn)
+    private void AddClickToDestroy(GameObject btn)
     {
         btn.GetComponent<Button>().onClick.AddListener(() =>
         {
-            needsController.hygiene += 5;
-            btn.SetActive(false);
+            if (!isInBathroom) return;
+
+            spawnedButtons.Remove(btn);
+            Destroy(btn);
+
+            if (spawnedButtons.Count == 0)
+            {
+                needsController.hygiene = 100;
+                hasSpawned = false; // Allow re-spawn if hygiene decays again
+            }
         });
     }
 
-    void UpdateButtonInteractivity()
+    private void RandomizePosition(GameObject btn)
+    {
+        RectTransform rt = btn.GetComponent<RectTransform>();
+        float randomX = Random.Range(minX, maxX);
+        float randomY = Random.Range(minY, maxY);
+        rt.anchoredPosition = new Vector2(randomX, randomY);
+    }
+
+    private void UpdateButtonInteractivity()
     {
         foreach (GameObject btn in spawnedButtons)
         {
             if (btn != null)
             {
-                Button buttonComp = btn.GetComponent<Button>();
-                buttonComp.interactable = isInBathroom;
+                btn.GetComponent<Button>().interactable = isInBathroom;
             }
         }
     }
 
     public void SetIsInBathroom(bool value)
     {
-        if (isInBathroom != value)
-        {
-            isInBathroom = value;
-
-            if (!isInBathroom)
-            {
-                // Force re-evaluation of current range to trigger re-spawn
-                currentRange = -1;
-            }
-        }
+        isInBathroom = value;
     }
 }
