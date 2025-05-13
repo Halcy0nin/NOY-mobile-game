@@ -69,6 +69,7 @@ public class RandomizerScript : MonoBehaviour
         btn.GetComponent<Button>().onClick.AddListener(() =>
         {
             if (!isInBathroom) return;
+            needsController.hygiene += 5;
 
             spawnedButtons.Remove(btn);
             Destroy(btn);
